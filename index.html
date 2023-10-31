@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>profil</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <Style>
+    /**** Sass Variables ****/
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Ubuntu", sans-serif;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 30px 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background-color: #003366;
+    }
+
+    .logo {
+      max-width: 150px;
+    }
+
+    .navigation {
+      display: flex;
+    }
+
+    .navigation li {
+      list-style: none;
+    }
+
+    .navigation li a {
+      position: relative;
+      color: #fff;
+      text-decoration: none;
+      margin-left: 40px;
+      padding-bottom: 4px;
+      /* Menentukan jarak antara teks dan garis bawah */
+      transition: 0.3s;
+      /* Efek transisi umum */
+    }
+
+    .navigation li a::before,
+    .navigation li a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: #fff;
+      transition: width 0.3s;
+      /* Efek transisi untuk lebar */
+      bottom: 0;
+      /* Letakkan border-bottom di bawah teks */
+    }
+
+    .navigation li a::before {
+      left: 0;
+      margin-bottom: 1px;
+      /* Tambahkan jarak di antara teks dan garis bawah */
+    }
+
+    .navigation li a::after {
+      right: 0;
+      margin-bottom: 1px;
+      /* Tambahkan jarak di antara teks dan garis bawah */
+    }
+
+    .navigation li a:hover::before {
+      width: 100%;
+    }
+
+    .navigation li a:hover::after {
+      width: 100%;
+    }
+
+    /* Make it responsive for small screens */
+    @media (max-width: 991px) {
+      header {
+        padding: 20px 40px;
+      }
+
+      .logo {
+        max-width: 150px;
+      }
+
+      .navigation {
+        display: none;
+      }
+
+      .navigation.active {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #003366;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .navigation li a {
+        font-size: 1.5em;
+        margin: 10px 0;
+        display: inline-block;
+      }
+
+      .toggle {
+        position: relative;
+        width: 32px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100000;
+        cursor: pointer;
+      }
+
+      .toggle.active {
+        position: fixed;
+        right: 40px;
+      }
+
+      .toggle::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: #fff;
+        transform: translateY(-10px);
+        box-shadow: 0 10px 0 #fff;
+        transition: 0.25s;
+      }
+
+      .toggle.active::before {
+        transform: translateY(0px) rotate(45deg);
+        box-shadow: 0 0 0 #fff;
+      }
+
+      .toggle::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: #fff;
+        transform: translateY(10px);
+        transition: 0.25s;
+      }
+
+      .toggle.active::after {
+        transform: translateY(0px) rotate(-45deg);
+      }
+    }
+
+    body {
+      font-family: "Open Sans", sans-serif;
+
+      background: #333;
+    }
+
+    .background-container {
+  background: url('https://images.unsplash.com/photo-1698444214003-dfdea976064a?auto=format&fit=crop&q=80&w=1931&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  z-index: 0;
+  opacity: 0.5; /* Sesuaikan tingkat transparansi sesuai keinginan Anda */
+}
+    .container {
+      max-width: 900px;
+
+      display: flex;
+
+      justify-content: space-evenly;
+    }
+
+    .card-wrapper {
+      width: 400px;
+
+      height: 500px;
+
+      position: relative;
+    }
+
+    .card {
+      position: absolute;
+
+      top: 5%;
+
+      left: 50%;
+
+      width: 350px;
+
+      height: 450px;
+
+      transform: translate(-50%, -50%);
+
+      border-radius: 16px;
+
+      overflow: hidden;
+
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.6);
+
+      cursor: pointer;
+
+      transition: 0.5s;
+    }
+
+    .card .card-image {
+      position: absolute;
+
+      top: 0px;
+
+      right: 0px;
+
+      width: 120%;
+
+      height: 100%;
+
+      z-index: 3;
+
+      background-color: #000;
+
+      transition: 0.5s;
+    }
+
+    .card:hover img {
+      opacity: 0.4;
+
+      transition: 0.5s;
+    }
+
+    .card:hover .card-image {
+      transform: translateY(-100px);
+
+      transition: all 0.9s;
+    }
+
+    /**** Social Icons *****/
+
+    .social-icons {
+      position: absolute;
+
+      top: 50%;
+
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+
+      z-index: 3;
+
+      display: flex;
+    }
+
+    .social-icons li {
+      list-style: none;
+    }
+
+    .social-icons li a {
+      position: relative;
+
+      display: block;
+
+      width: 50px;
+
+      height: 50px;
+
+      line-height: 50px;
+
+      text-align: center;
+
+      background: #fff;
+
+      font-size: 23px;
+
+      color: #333;
+
+      font-weight: bold;
+
+      margin: 0 6px;
+
+      transition: 0.4s;
+
+      transform: translateY(200px);
+
+      opacity: 0;
+    }
+
+    .card:hover .social-icons li a {
+      transform: translateY(0px);
+
+      opacity: 1;
+    }
+
+    .social-icons li a:hover {
+      background: #000;
+
+      transition: 0.2s;
+    }
+
+    .social-icons li a:hover .fab {
+      color: #fff;
+    }
+
+    .social-icons li a .fab {
+      transition: 0.8s;
+    }
+
+    .social-icons li a .fab:hover {
+      transform: rotateY(360deg);
+
+      color: #fff;
+    }
+
+    .card:hover li:nth-child(1) a {
+      transition-delay: 0.1s;
+    }
+
+    .card:hover li:nth-child(2) a {
+      transition-delay: 0.2s;
+    }
+
+    .card:hover li:nth-child(3) a {
+      transition-delay: 0.3s;
+    }
+
+    .card:hover li:nth-child(4) a {
+      transition-delay: 0.4s;
+    }
+
+    /**** Personal Details ****/
+
+    .details {
+      position: absolute;
+
+      bottom: 0;
+
+      left: 0;
+
+      background: #fff;
+
+      width: 100%;
+
+      height: 120px;
+
+      z-index: 1;
+
+      padding: 10px;
+    }
+
+    .details h2 {
+      margin: 30px 0;
+
+      padding: 0;
+
+      text-align: center;
+    }
+
+    .details h2 .job-title {
+      font-size: 1rem;
+
+      line-height: 2.5rem;
+
+      color: #333;
+
+      font-weight: 300;
+    }
+    /* CSS untuk container tambahan */
+.additional-containers {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Pusatkan horizontal */
+  margin-top: -210px;
+  padding: 20px;
+}
+
+.additional-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  margin-bottom: 20px; /* Jarak antara kontainer tambahan */
+  width: 90px; /* Lebar kontainer */
+  height: 93px; /* Tinggi kontainer */
+}
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-wrapper {
+    margin-top: 20px; /* Jarak antara card-wrapper dan kontainer tambahan pada layar kecil */
+  }
+
+  .additional-container {
+    margin-top: 10px; /* Mengurangi jarak antara card-wrapper dan kontainer tambahan pada layar kecil */
+    width: 90%; /* Gunakan 90% lebar layar */
+    width: 350px;
+  }
+}
+  </Style>
+</head>
+
+<body>
+  <header>
+    <a href="#"><img src="Group 770702.png" class="logo"></a>
+    <div class="toggle"></div>
+    <ul class="navigation">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Menu</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#"><ion-icon name="notifications-outline"></ion-icon></a></li>
+    </ul>
+  </header>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    //toggle 
+    const menutoggle = document.querySelector('.toggle');
+    const navigation = document.querySelector('.navigation');
+    menutoggle.onclick = function () {
+      menutoggle.classList.toggle('active')
+      navigation.classList.toggle('active')
+    }
+  </script>
+
+<div class="container">
+  <!-- Tambahkan background container -->
+  <div class="background-container">
+    <!-- Konten di dalam background container -->
+  </div>
+  
+  <div class="card-wrapper">
+    <!-- Card dan kontennya -->
+  </div>
+</div>
+
+  <div class="container">
+
+    <div class="card-wrapper">
+
+      <div class="card">
+
+        <div class="card-image">
+
+          <img src="https://i.pinimg.com/564x/0d/4c/c8/0d4cc8c3186b1e465d3c6946085b1c1a.jpg">
+
+        </div>
+
+        <ul class="social-icons">
+
+          <li>
+
+            <a href="">
+
+              <i class="fab fa-facebook-f"></i>
+
+            </a>
+
+          </li>
+
+          <li>
+
+            <a href="">
+
+              <i class="fab fa-instagram"></i>
+
+            </a>
+
+          </li>
+
+          <li>
+
+            <a href="">
+
+              <i class="fab fa-twitter"></i>
+
+            </a>
+
+          </li>
+
+          <li>
+
+            <a href="">
+
+              <i class="fab fa-dribbble"></i>
+
+            </a>
+
+          </li>
+
+        </ul>
+
+        <div class="details">
+
+          <h2>Achel
+
+            <br>
+
+            <span class="job-title">
+              <3< /span>
+
+          </h2>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="additional-containers">
+      <div class="additional-container">
+        <!-- Konten kontainer pertama di sini -->
+      </div>
+      <div class="additional-container">
+        <!-- Konten kontainer kedua di sini -->
+      </div>
+      <div class="additional-container">
+        <!-- Konten kontainer ketiga di sini -->
+      </div>
+      <div class="additional-container">
+        <!-- Konten kontainer ketiga di sini -->
+      </div>
+    </div>
+    
+</body>
+
+</html>
